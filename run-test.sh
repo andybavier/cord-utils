@@ -17,6 +17,10 @@ do
     sleep 10
 done
 
+# Renew experiment for 8 hours (default is 4)
+RENEW=$( date -v +8H -u )
+$OMNI -a $AGG --project XOS renewsliver $SLICE "$RENEW"
+
 HOSTS=hosts.$AGG.$SLICE
 $READY --project XOS $SLICE --useSliceAggregates --readyonly --ansible-inventory > $HOSTS
 

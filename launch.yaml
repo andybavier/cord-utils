@@ -1,6 +1,10 @@
 ---
 - hosts: all
   become: no
+  vars:
+    ciab_url: "https://raw.githubusercontent.com/opencord/cord/master/scripts/cord-in-a-box.sh"
+    ciab_script: "~/cord-in-a-box.sh"
+    ciab_output: "~/cord-in-a-box.out"
   tasks:
 
   - name: Install mosh
@@ -10,16 +14,20 @@
       state: present
 
   - name: Download cord-in-a-box.sh script
-    shell: curl https://gerrit.opencord.org/changes/1310/revisions/8d02ed0d144dc8066f024dfb27edb464cc911e62/archive?format=tar | tar -xf - scripts/cord-in-a-box.sh
+    # shell: curl https://gerrit.opencord.org/changes/1310/revisions/8d02ed0d144dc8066f024dfb27edb464cc911e62/archive?format=tar | tar -xf - scripts/cord-in-a-box.sh
+    shell: curl -o {{ ciab_script }} {{ ciab_url }}
     register: result
     until: result | success
     retries: 3
     delay: 1
 
   - name: Run cord-in-a-box.sh script
-    shell: ~/scripts/cord-in-a-box.sh -t | tee ~/cord-in-a-box.out
+    shell: bash {{ ciab_script }} -t | tee {{ ciab_output }}
     async: 14400
     poll: 60
 
   - name: Fetch log
-    fetch: src=~/cord-in-a-box.out dest=logs
+    fetch: 
+      src={{ ciab_output }}
+      dest=logs/{{ aggregate }}-{{ slice }}
+      flat=yes

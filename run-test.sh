@@ -21,4 +21,4 @@ HOSTS=hosts.$AGG.$SLICE
 $READY --project XOS $SLICE --useSliceAggregates --readyonly --ansible-inventory > $HOSTS
 
 mkdir -p logs
-ansible-playbook -i $HOSTS launch.yaml
+ansible-playbook -i $HOSTS launch.yaml --extra-vars="aggregate=$AGG slice=$SLICE"

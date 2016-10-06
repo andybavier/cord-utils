@@ -1,0 +1,11 @@
+<rspec xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.geni.net/resources/rspec/3" type="request" xsi:schemaLocation="http://www.geni.net/resources/rspec/3 http://www.geni.net/resources/rspec/3/request.xsd">
+    <rspec_tour xmlns="http://www.protogeni.net/resources/rspec/ext/apt-tour/1">
+        <description type="text">One bare-metal x86 node running Ubuntu 14.04.5 (updated to latest packages as of 2016-08-30)
+        </description>
+    <instructions xmlns="" type="markdown">Log in and poke around; you have complete root access using `sudo`</instructions></rspec_tour>
+    <node client_id="node" exclusive="true">
+        <sliver_type name="raw-pc">
+            <disk_image name="urn:publicid:IDN+clemson.cloudlab.us+image+xos-PG0:OnePC-Ubuntu14.04.5:0"/>
+        </sliver_type>
+    </node>
+</rspec>

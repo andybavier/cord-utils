@@ -29,5 +29,5 @@
   - name: Fetch log
     fetch: 
       src={{ ciab_output }}
-      dest=logs/{{ aggregate }}-{{ slice }}
+      dest=logs/{{ aggregate }}.{{ slice }}.{{ ansible_date_time.iso8601 }}
       flat=yes

@@ -35,7 +35,7 @@ $OMNI --error -a $AGG --project XOS renewsliver $SLICE "$RENEW"
 
 HOSTS=hosts.$AGG.$SLICE
 echo "*** Creating Ansible hosts file: $HOSTS"
-$READY --project XOS $SLICE --useSliceAggregates --readyonly --ansible-inventory > $HOSTS
+$READY --project XOS -a $AGG $SLICE --readyonly --ansible-inventory > $HOSTS
 
 echo "*** Running Ansible playbook"
 mkdir -p logs

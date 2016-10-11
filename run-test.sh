@@ -5,7 +5,7 @@ SLICE=$2  # I.e., single
 
 OMNI=/Applications/omniTools-2.10/omni.app/Contents/MacOS/omni
 READY=/Applications/omniTools-2.10/readyToLogin.app/Contents/MacOS/readyToLogin
-HOURS=8
+HOURS=16
 
 function get_status {
     $OMNI --error -a $AGG --project XOS SliverStatus $SLICE --tostdout | jq -r '.pg_status'
@@ -28,7 +28,7 @@ do
     STATUS=$( get_status )
 done
 
-# Renew experiment for 8 hours (default is 4)
+# Renew experiment for 16 hours (default is 4)
 echo "*** Renewing experiment for $HOURS hours"
 RENEW=$( date -v +${HOURS}H -u )
 $OMNI --error -a $AGG --project XOS renewsliver $SLICE "$RENEW"

@@ -5,6 +5,8 @@
     ciab_url: "https://raw.githubusercontent.com/opencord/cord/master/scripts/cord-in-a-box.sh"
     ciab_script: "~/cord-in-a-box.sh"
     ciab_output: "~/cord-in-a-box.out"
+    ciab_copy: false
+    ciab_file: "~/gerrit.opencord.org/cord/scripts/cord-in-a-box.sh"
   tasks:
 
   - name: Install mosh
@@ -12,14 +14,24 @@
     apt:
       name: mosh
       state: present
+      update_cache: yes
 
   - name: Download cord-in-a-box.sh script
-    # shell: curl https://gerrit.opencord.org/changes/1310/revisions/8d02ed0d144dc8066f024dfb27edb464cc911e62/archive?format=tar | tar -xf - scripts/cord-in-a-box.sh
-    shell: curl -o {{ ciab_script }} {{ ciab_url }}
+    get_url:
+      url: "{{ ciab_url }}"
+      dest: "{{ ciab_script }}"
+      mode: 0755
     register: result
     until: result | success
     retries: 3
     delay: 1
+    when: not ciab_copy
+
+  - name: Copy in cord-in-a-box.sh script
+    copy:
+      src: "{{ ciab_file }}"
+      dest: "{{ ciab_script }}"
+    when: ciab_copy
 
   - name: Run cord-in-a-box.sh script
     shell: bash {{ ciab_script }} -t | tee {{ ciab_output }}
